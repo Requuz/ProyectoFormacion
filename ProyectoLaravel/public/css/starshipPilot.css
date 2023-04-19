@@ -1,0 +1,66 @@
+body {
+    background-color: rgba(34, 34, 34, 0.75);
+    font-family: 'Star Jedi', cursive;
+}
+
+h1 {
+    text-align: center;
+    margin: 2%;
+    color: #ffe81f;
+}
+
+.actions {
+    margin: 0 auto;
+    width: 45%;
+}
+
+.alertsActions {
+    display: flex;
+    margin: 0 auto;
+    width: 75%;
+}
+
+.container {
+    background-color: rgba(34, 34, 34, 0.75);
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.form-group label {
+    color: #f0e68c;
+}
+
+.table {
+    background-color: rgba(34, 34, 34, 0.75);
+}
+
+.table td {
+    color: #f0e68c;
+}
+
+thead {
+    background-color: #1c1c1c;
+}
+
+thead th {
+    color: #ffe81f;
+}
+
+.btn-danger {
+    background-color: #ff0000;
+    border-color: #ff0000;
+}
+
+.btn-danger:hover {
+    background-color: #cc0000;
+    border-color: #cc0000;
+}
+
+.alert-removed {
+    opacity: 1;
+    transition: opacity 0.5s ease;
+}
+
+.alert-removed.fade-out {
+    opacity: 0;
+}
