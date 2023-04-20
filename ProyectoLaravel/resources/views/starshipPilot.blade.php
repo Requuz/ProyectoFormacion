@@ -10,12 +10,9 @@
     <link rel="stylesheet" href="{{ asset('css/starshipPilot.css') }}">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css" />
-
 </head>
 <body>
-
     <h1>Naves y pilotos</h1>
-
     <div class="actions">
         <div class="row">
             <div class="col-md-6">
@@ -63,53 +60,65 @@
             </div>
         </div>
     </div>
-
     <div class="container" ng-controller="StarshipPilotController">
-
         <br>
-
         <table class="table table-bordered table-striped">
             <thead>
                 <tr>
-                    <th>Nombre de la nave</th>
-                    <th>Nombre del piloto</th>
+                    <th>Nave</th>
+                    <th>Precio</th>
+                    <th>Pilotos</th>
                 </tr>
             </thead>
             <tbody>
-                    @foreach ($starship_pilot as $starship_name => $pilots)
-                        <tr>
-                            <td>{{ $starship_name }}</td>
-                            <td>
-                                @foreach ($pilots as $pilot)
-                                    {{ $pilot->pilot_name }}@if (!$loop->last), @endif
-                                @endforeach
-                            </td>
-                            </tr>
+                               @foreach ($starship_pilot as $starship_name => $pilots)
+                    <tr data-starship-id="{{ $pilots->first()->starship_name }}">
+                        <td>{{ $starship_name }}</td>
+                        <td class="starship-price" data-cost-in-credits="{{ $pilots->first()->cost_in_credits }}"></td>
+                        <td>
+                            @foreach ($pilots as $pilot)
+                                {{ $pilot->pilot_name }}@if (!$loop->last), @endif
+                            @endforeach
+                        </td>
+                    </tr>
                 @endforeach
             </tbody>
-    </table>
+        </table>
+    </div>
 
-</div>
-
-<!--Nombres de pilotos, autocompletar campo de texto-->
-<div id="pilot-names" style="display: none;">
-    @foreach ($pilots as $pilot)
-        <span data-name="{{ $pilot->pilot_name }}"></span>
-    @endforeach
-</div>
-
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        const alertRemoved = document.querySelector('.alert-removed');
-        if (alertRemoved) {
-            setTimeout(() => {
-                alertRemoved.classList.add('fade-out');
-                setTimeout(() => {
-                    alertRemoved.remove();
-                }, 500);
-            }, 2000);
+    <script>
+        function base10to15(number) {
+            const codes = "0123456789ßÞ¢μ¶";
+            let result = "";
+            do {
+                result = codes[number % 15] + result;
+                number = Math.floor(number / 15);
+            } while (number > 0);
+            return result;
         }
-    });
-</script>
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const starshipPriceElements = document.querySelectorAll(".starship-price");
+
+            starshipPriceElements.forEach((element) => {
+                const cost_in_credits = parseInt(element.getAttribute("data-cost-in-credits"), 10);
+                const base15Price = base10to15(cost_in_credits);
+                element.textContent = base15Price;
+            });
+        });
+
+        document.addEventListener("DOMContentLoaded", function() {
+            const alertRemoved = document.querySelector('.alert-removed');
+            if (alertRemoved) {
+                setTimeout(() => {
+                    alertRemoved.classList.add('fade-out');
+                    setTimeout(() => {
+                        alertRemoved.remove();
+                    }, 500);
+                }, 2000);
+            }
+        });
+    </script>
 </body>
 </html>
+

@@ -18,7 +18,7 @@ class StarshipPilotController extends Controller
         $starship_pilot = DB::table('starship_pilot')
             ->join('starships', 'starship_pilot.starship_id', '=', 'starships.id')
             ->join('pilots', 'starship_pilot.pilot_id', '=', 'pilots.id')
-            ->select('starship_pilot.id', 'starships.name as starship_name', 'pilots.name as pilot_name')
+            ->select('starship_pilot.id', 'starships.name as starship_name', 'pilots.name as pilot_name', 'starships.cost_in_credits')
             ->get()
             ->groupBy('starship_name');
 
