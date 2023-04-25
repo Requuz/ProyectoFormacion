@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="starshipPilotsApp">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Naves y pilotos</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="stylesheet" href="css/starshipPilot.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+
+<body ng-controller="StarshipPilotController">
+    <h1>Naves y pilotos</h1>
+    <div class="content-wrapper">
+        <div class="table-container container">
+            <br>
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>Nave</th>
+                        <th>Precio</th>
+                        <th>Pilotos</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="entry in groupPilotsByStarship()">
+                        <td>{{ getStarshipName(entry.starship_id) }}</td>
+                        <td>{{ base10to15(getStarshipPrice(entry.starship_id)) }}</td>
+                        <td>{{ getPilotsList(entry.pilots) }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="actions">
+            <div class="row">
+                <div class="col-md-12">
+                    <form ng-submit="deletePilot()">
+                        <div class="form-group">
+                            <h3>Eliminar piloto</h3>
+                            <label for="name">Nombre del piloto a eliminar:</label>
+                            <input type="text" class="form-control" id="name" placeholder="Ej: Obi-Wan Kenobi" ng-model="deletePilotName" required>
+                        </div>
+                        <button type="submit" class="btn btn-danger">Eliminar</button>
+                    </form>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <br>
+                    <br>
+                    <h3>Vincular/Desvincular</h3>
+                    <form name="linkPilotForm" ng-submit="linkPilot()">
+                        <div class="form-group">
+                            <label for="pilot_id">Selecciona un piloto:</label>
+                            <select class="form-control" id="pilot_id" ng-model="selectedPilot" ng-options="pilot.id as pilot.name for pilot in pilots" required>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="starship_id">Selecciona una nave:</label>
+                            <select class="form-control" id="starship_id" ng-model="selectedStarship" ng-options="starship.id as starship.name for starship in starships" required>
+                            </select>
+                        </div>
+                        <div class="button-container">
+                            <button type="submit" class="btn btn-primary">Vincular piloto a nave</button>
+                            <button type="button" class="btn btn-warning" ng-click="unlinkPilot(selectedStarship, selectedPilot)">Desvincular piloto y nave</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+        <script src="controllers\starshipPilot.js"></script>
+</body>
+
+</html>

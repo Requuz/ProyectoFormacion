@@ -1,0 +1,29 @@
+body {
+    background: #000 url(//cssanimation.rocks/demo/starwars/images/bg.jpg);
+    font-family: 'Star Jedi', cursive;
+}
+
+h1 {
+    color: #ffe81f;
+    text-align: center;
+    padding: 20px 0;
+}
+
+.container {
+    max-width: 100%;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.table {
+    background-color: rgba(34, 34, 34, 0.75);
+}
+
+.table td,
+.table th {
+    color: #f0e68c;
+}
+
+thead th {
+    color: #ffe81f;
+}

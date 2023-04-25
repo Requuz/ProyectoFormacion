@@ -17,10 +17,6 @@ class Pilot extends Model
         'birth_year',
         'gender',
         'homeworld',
-        //'films',
-        //'species',
-        //'vehicles',
-        //'starships',
         'created',
         'edited',
     ];

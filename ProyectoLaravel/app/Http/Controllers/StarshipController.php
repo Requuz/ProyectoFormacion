@@ -8,9 +8,8 @@ use App\Models\Starship;
 class StarshipController extends Controller
 {
     public function index()
-    {
-        $starships = Starship::all();
-        return view('starships', compact('starships'));
-    }
-
+{
+    $starships = Starship::all();
+    return response()->json($starships);
+}
 }

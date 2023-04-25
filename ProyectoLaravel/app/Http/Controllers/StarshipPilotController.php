@@ -45,7 +45,7 @@ class StarshipPilotController extends Controller
 }
     public function linkPilot(Request $request)
     {
-        // Vincula un piloto a una nave en la base de datos utilizando la información proporcionada en $request
+        //Vincular un piloto a una nave en la base de datos utilizando la información proporcionada en $request
         $starshipId = $request->input('starship_id');
         $pilotId = $request->input('pilot_id');
 
@@ -55,6 +55,22 @@ class StarshipPilotController extends Controller
         if ($starship && $pilot) {
             $starship->pilots()->attach($pilot);
             return $this->index()->with('success', 'Piloto vinculado correctamente');
+        }
+
+        return response()->json(['message' => 'Nave o piloto no encontrado.'], 404);
+    }
+
+     public function unlinkPilot(Request $request)
+    {
+        $starshipId = $request->input('starship_id');
+        $pilotId = $request->input('pilot_id');
+
+        $starship = Starship::find($starshipId);
+        $pilot = Pilot::find($pilotId);
+
+        if ($starship && $pilot) {
+            $starship->pilots()->detach($pilot);
+            return $this->index()->with('success', 'Piloto desvinculado correctamente');
         }
 
         return response()->json(['message' => 'Nave o piloto no encontrado.'], 404);

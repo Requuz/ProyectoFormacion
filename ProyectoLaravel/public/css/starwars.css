@@ -1,11 +1,11 @@
 body {
-    font-family: Arial, sans-serif;
-    background-color: #1c1c1c;
+    font-family: "Star Jedi", cursive;
+    background: #000 url(//cssanimation.rocks/demo/starwars/images/bg.jpg);
     color: #f0e68c;
 }
 
 h1 {
-    font-family: "Star Jedi", cursive;
+    color: #ffe81f;
     text-align: center;
     font-size: 3rem;
     margin-bottom: 1.5rem;

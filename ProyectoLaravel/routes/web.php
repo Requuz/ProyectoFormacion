@@ -42,4 +42,5 @@ Route::delete('/pilots/destroyByName', [StarshipPilotController::class, 'destroy
 
 Route::post('/starships/linkPilot', [StarshipPilotController::class, 'linkPilot'])->name('starships.linkPilot');
 
+Route::post('/starships/unlinkPilot', 'StarshipController@unlinkPilot')->name('starships.unlinkPilot');
 

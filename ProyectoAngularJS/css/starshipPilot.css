@@ -3,18 +3,35 @@ body {
     font-family: 'Star Jedi', cursive;
 }
 
-h1 {
+h1,
+h3 {
     color: #ffe81f;
+    text-align: center;
+}
+
+.content-wrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    max-width: 100%;
+    padding: 20px;
 }
 
 .actions,
-.container {
-    max-width: 100%;
+.table-container {
+    border-radius: 10px;
+    background-color: rgba(34, 34, 34, 0.75);
+    padding: 20px;
 }
 
-.container {
-    padding: 20px;
-    border-radius: 10px;
+.actions {
+    flex-basis: 25%;
+}
+
+.table-container {
+    flex-basis: 70%;
+    padding-left: 15px;
 }
 
 .form-group label {
@@ -23,6 +40,7 @@ h1 {
 
 .table {
     background-color: rgba(34, 34, 34, 0.75);
+    width: 100%;
 }
 
 .table td {
@@ -35,25 +53,6 @@ thead {
 
 thead th {
     color: #ffe81f;
-}
-
-.content-wrapper {
-    display: flex;
-    flex-direction: row-reverse;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.table-container {
-    flex-basis: 75%;
-    padding-left: 15px;
-}
-
-.actions {
-    flex-basis: 25%;
-    padding: 15px;
-    display: flex;
-    flex-direction: column;
 }
 
 .button-container {
@@ -71,13 +70,3 @@ thead th {
     background-color: #cc0000;
     border-color: #cc0000;
 }
-
-
-/*.alert-removed {
-    opacity: 1;
-    transition: opacity 0.5s ease;
-}
-
-.alert-removed.fade-out {
-    opacity: 0;
-}*/

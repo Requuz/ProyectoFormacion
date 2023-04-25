@@ -1,9 +1,15 @@
-@extends('layouts.app')
-
-@section('title', 'Naves')
-
-@section('content')
-    <div class="container">
+<!DOCTYPE html>
+<html lang="en" ng-app="starshipsApp">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Naves</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="{{ asset('js/angular.min.js') }}"></script>
+    <script src="{{ asset('ProyectoLaravel\resources\js\app.js') }}"></script>
+</head>
+<body>
+    <div class="container" ng-controller="StarshipsController">
         <h1>Naves</h1>
         <table class="table">
             <thead>
@@ -25,32 +31,30 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($starships as $starship)
-                    <tr>
-                        <td>{{ $starship->name }}</td>
-                        <td>{{ $starship->model }}</td>
-                        <td>{{ $starship->manufacturer }}</td>
-                        <td>{{ $starship->cost_in_credits }}</td>
-                        <td>{{ $starship->length }}</td>
-                        <td>{{ $starship->max_atmosphering_speed }}</td>
-                        <td>{{ $starship->crew }}</td>
-                        <td>{{ $starship->passengers }}</td>
-                        <td>{{ $starship->cargo_capacity }}</td>
-                        <td>{{ $starship->consumables }}</td>
-                        <td>{{ $starship->starship_class }}</td>
-                        <td>{{ $starship->hyperdrive_rating }}</td>
-                        <td>{{ $starship->MGLT }}</td>
-                        <td>
-                        @forelse ($starship->pilots as $pilot)
-                            {{ $pilot->name }}@if (!$loop->last), @endif
-                        @empty
-                            Desconocido
-                        @endforelse
-
-                        </td>
-                    </tr>
-                @endforeach
+                <tr ng-repeat="starship in starships">
+                    <td>{{ starship.name }}</td>
+                    <td>{{ starship.model }}</td>
+                    <td>{{ starship.manufacturer }}</td>
+                    <td>{{ starship.cost_in_credits }}</td>
+                    <td>{{ starship.length }}</td>
+                    <td>{{ starship.max_atmosphering_speed }}</td>
+                    <td>{{ starship.crew }}</td>
+                    <td>{{ starship.passengers }}</td>
+                    <td>{{ starship.cargo_capacity }}</td>
+                    <td>{{ starship.consumables }}</td>
+                    <td>{{ starship.starship_class }}</td>
+                    <td>{{ starship.hyperdrive_rating }}</td>
+                    <td>{{ starship.MGLT }}</td>
+                    <td>
+                        <span ng-repeat="pilot in starship.pilots">
+                            {{ pilot.name }}<span ng-if="!$last">, </span>
+                        </span>
+                        <span ng-if="!starship.pilots.length">Desconocido</span>
+                    </td>
+                </tr>
             </tbody>
         </table>
     </div>
-@endsection
+</body>
+</html>
+
