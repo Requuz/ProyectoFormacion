@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="peopleApp">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Naves</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="css/starwars.css" />
+</head>
+
+<body>
+    <div class="container" ng-controller="PeopleController">
+        <h1>Naves</h1>
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Altura</th>
+                    <th>Peso</th>
+                    <th>Color de pelo</th>
+                    <th>Color de piel</th>
+                    <th>Color de ojos</th>
+                    <th>Año de nacimiento</th>
+                    <th>Género</th>
+                    <th>Mundo natal</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="people in pilots">
+                    <td>{{ people.name }}</td>
+                    <td>{{ people.height }}</td>
+                    <td>{{ people.mass }}</td>
+                    <td>{{ people.hair_color }}</td>
+                    <td>{{ people.skin_color }}</td>
+                    <td>{{ people.eye_color }}</td>
+                    <td>{{ people.birth_year }}</td>
+                    <td>{{ people.gender }}</td>
+                    <td>{{ people.homeworld }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <script src="controllers/people.js"></script>
+</body>
+
+</html>

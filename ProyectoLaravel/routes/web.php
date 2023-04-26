@@ -30,6 +30,9 @@ Route::get('/pilots', function () {
     return view('pilots');
 });
 
+Route::get('/pilots', 'PeopleController@index');
+
+
 Route::get('/pilots', [PilotsController::class, 'index']);
 
 Route::get('/starshipPilot', function () {
