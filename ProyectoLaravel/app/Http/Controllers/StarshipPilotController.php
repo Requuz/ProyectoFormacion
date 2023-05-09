@@ -25,54 +25,51 @@ class StarshipPilotController extends Controller
         return view('starshipPilot', ['starship_pilot' => $starship_pilot], compact('pilots', 'starships'));
     }
 
-    public function destroyByName(Request $request)
+    public function destroyById($id)
 {
-    $validated = $request->validate([
-        'name' => 'required|string',
-    ]);
 
-    $pilot = Pilot::where('name', $validated['name'])->first();
+    $pilot = Pilot::find($id);
 
     if (!$pilot) {
-        return redirect()->back()->with('error', 'Piloto no encontrado');
+        return response()->json(['Mensaje:'=> 'Piloto no encontrado'], 404);
     }
 
     $pilot->starships()->detach();
     $pilot->delete();
 
-    return $this->index()->with('success', 'Piloto eliminado correctamente');
+    return response()->json(['Mensaje:'=> 'Piloto eliminado'], 200);
 
 }
-    public function linkPilot(Request $request)
-    {
-        //Vincular un piloto a una nave en la base de datos utilizando la información proporcionada en $request
-        $starshipId = $request->input('starship_id');
-        $pilotId = $request->input('pilot_id');
+   public function linkPilot($pilot_id, $starship_id)
+{
+    //Buscar el piloto y la nave en la base de datos usando los valores de los parametros
+    $pilot = Pilot::find($pilot_id);
+    $starship = Starship::find($starship_id);
 
-        $starship = Starship::find($starshipId);
-        $pilot = Pilot::find($pilotId);
-
-        if ($starship && $pilot) {
-            $starship->pilots()->attach($pilot);
-            return $this->index()->with('success', 'Piloto vinculado correctamente');
-        }
-
-        return response()->json(['message' => 'Nave o piloto no encontrado.'], 404);
+    //Si los dos existen, se vinculan y se muestra un mensaje de éxito
+    if ($starship && $pilot) {
+        $starship->pilots()->attach($pilot);
+        return response()->json(['success' => 'Piloto y nave vinculados correctamente']);
     }
 
-     public function unlinkPilot(Request $request)
-    {
-        $starshipId = $request->input('starship_id');
-        $pilotId = $request->input('pilot_id');
+    //Si cualquiera de los dos no se encuentra, se muestra un mensaje de error
+    return response()->json(['message' => 'Nave o piloto no encontrado.'], 404);
+}
 
-        $starship = Starship::find($starshipId);
-        $pilot = Pilot::find($pilotId);
 
-        if ($starship && $pilot) {
-            $starship->pilots()->detach($pilot);
-            return $this->index()->with('success', 'Piloto desvinculado correctamente');
-        }
+      public function unlinkPilot($pilot_id, $starship_id)
+{
+   //Buscar el piloto y la nave en la base de datos usando los valores de los parametros
+    $pilot = Pilot::find($pilot_id);
+    $starship = Starship::find($starship_id);
 
-        return response()->json(['message' => 'Nave o piloto no encontrado.'], 404);
+    //Si los dos existen, se desvinculan y se muestra un mensaje de éxito
+    if ($starship && $pilot) {
+        $starship->pilots()->detach($pilot);
+        return response()->json(['success' => 'Piloto y nave desvinculados correctamente']);
     }
+
+    //Si cualquiera de los dos no se encuentra, se muestra un mensaje de error
+    return response()->json(['message' => 'Nave o piloto no encontrado.'], 404);
+}
 }

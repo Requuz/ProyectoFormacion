@@ -1,19 +1,39 @@
-angular.module('starshipPilotsApp', []);
-
 angular.module('starshipPilotsApp', []).controller('StarshipPilotController', function($scope, $http) {
-    $http.get('http://127.0.0.1:8000/api/pilots').then(function(response) {
-        $scope.pilots = response.data;
-    });
 
-    $http.get('http://127.0.0.1:8000/api/starships').then(function(response) {
-        $scope.starships = response.data;
-    });
+    $scope.fetchData = function() {
+        $http.get('http://127.0.0.1:8000/api/pilots').then(function(response) {
+            $scope.pilots = response.data.sort(function(a, b) {
+                return a.name.localeCompare(b.name);
+            });
+            if ($scope.pilots.length > 0) {
+                $scope.selectedPilotToDelete = $scope.pilots[0].id;
+                $scope.selectedPilot = $scope.pilots[0];
+            }
+        });
 
-    $http.get('http://127.0.0.1:8000/api/starshipPilot').then(function(response) {
+        $http.get('http://127.0.0.1:8000/api/starships').then(function(response) {
+            $scope.starships = response.data.sort(function(a, b) {
+                return a.name.localeCompare(b.name);
+            });
+            if ($scope.starships.length > 0) {
+                $scope.selectedStarship = $scope.starships[0];
+            }
+        });
 
-        $scope.starship_pilot = response.data;
+        $http.get('http://127.0.0.1:8000/api/starshipPilot').then(function(response) {
 
-    });
+            $scope.starship_pilot = response.data;
+
+        });
+    };
+
+    function init() {
+        $scope.pilotId = null;
+        $scope.starshipId = null;
+        $scope.fetchData();
+    }
+
+    init();
 
     //Obtener nombres de las naves
     $scope.getStarshipName = function(starship_id) {
@@ -54,6 +74,11 @@ angular.module('starshipPilotsApp', []).controller('StarshipPilotController', fu
     };
     //Agrupar pilotos por nave separados por ,
     $scope.groupPilotsByStarship = function() {
+
+        if (!$scope.starship_pilot) {
+            return;
+        }
+
         let grouped = {};
 
         for (let i = 0; i < $scope.starship_pilot.length; i++) {
@@ -79,60 +104,97 @@ angular.module('starshipPilotsApp', []).controller('StarshipPilotController', fu
         return pilotNames.join(', ');
     };
 
-    $scope.linkPilot = function() {
-        var starship_id = $scope.selectedStarship.id;
-        var pilot_id = $scope.selectedPilot.id;
-
-        $http.post('http://127.0.0.1:8000/api/linkPilot', { starship_id: starship_id, pilot_id: pilot_id })
-            .then(function(response) {
-                $scope.starship_pilot = response.data;
-                $scope.selectedPilot = null;
-                $scope.selectedStarship = null;
-                $scope.linkPilotForm.$setPristine();
-                $scope.linkPilotForm.$setUntouched();
-                $scope.successMessage = 'Piloto vinculado correctamente';
-                $scope.errorMessage = null;
+    $scope.linkPilot = function(pilotId, starshipId) {
+        $http({
+                method: 'POST',
+                url: 'http://127.0.0.1:8000/api/linkPilot/' + pilotId + '/' + starshipId,
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }).then(function(response) {
+                if (response.data.success) {
+                    $scope.successMessage = response.data.success;
+                    $scope.errorMessage = null;
+                    $scope.fetchData();
+                } else {
+                    $scope.errorMessage = 'Error: ' + response.data.message;
+                    $scope.successMessage = null;
+                }
             })
             .catch(function(error) {
-                $scope.errorMessage = 'Error: ' + error.data.message;
+                if (error.data && error.data.message) {
+                    $scope.errorMessage = 'Error: ' + error.data.message;
+                } else {
+                    $scope.errorMessage = 'Error: No se pudo completar la operación';
+                }
                 $scope.successMessage = null;
             });
     };
 
-    $scope.unlinkPilot = function() {
-        var starship_id = $scope.selectedStarship.id;
-        var pilot_id = $scope.selectedPilot.id;
 
-        $http.post('http://127.0.0.1:8000/api/starships/unlinkPilot', { starship_id: starship_id, pilot_id: pilot_id })
-            .then(function(response) {
-                $scope.starship_pilot = response.data;
-                $scope.selectedPilot = null;
-                $scope.selectedStarship = null;
-                $scope.unlinkPilotForm.$setPristine();
-                $scope.unlinkPilotForm.$setUntouched();
-                $scope.successMessage = 'Piloto desvinculado correctamente';
-                $scope.errorMessage = null;
+    $scope.unlinkPilot = function(pilotId, starshipId) {
+        $http({
+                method: 'POST',
+                url: 'http://127.0.0.1:8000/api/unlinkPilot/' + pilotId + '/' + starshipId,
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }).then(function(response) {
+                if (response.data.success) {
+                    $scope.successMessage = response.data.success;
+                    $scope.errorMessage = null;
+                    $scope.fetchData();
+                } else {
+                    $scope.errorMessage = 'Error: ' + response.data.message;
+                    $scope.successMessage = null;
+                }
             })
             .catch(function(error) {
-                $scope.errorMessage = 'Error: ' + error.data.message;
+                if (error.data && error.data.message) {
+                    $scope.errorMessage = 'Error: ' + error.data.message;
+                } else {
+                    $scope.errorMessage = 'Error: No se pudo completar la operación';
+                }
                 $scope.successMessage = null;
             });
     };
 
-    $scope.deletePilot = function() {
-        var pilot_name = $scope.deletePilotName;
+    $scope.deletePilot = function(pilotId) {
 
-        $http.post('http://127.0.0.1:8000/api/deletePilot', { name: pilot_name })
-            .then(function(response) {
-                $scope.pilots = response.data.pilots;
-                $scope.starship_pilot = response.data.starship_pilot;
-                $scope.successMessage = 'Piloto eliminado correctamente';
-                $scope.errorMessage = null;
+        console.log('ID del piloto a eliminar:', pilotId);
+        console.log('URL completa:', 'http://127.0.0.1:8000/api/destroyById/' + pilotId);
+
+        $http({
+                method: 'POST',
+                url: 'http://127.0.0.1:8000/api/destroyById/' + pilotId,
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }).then(function(response) {
+                if (response.data.success) {
+                    $scope.pilots = response.data.pilots;
+                    $scope.starship_pilot = response.data.starship_pilot;
+                    $scope.errorMessage = null;
+                    $scope.selectedPilotToDelete = null;
+                    $scope.successMessage = response.data.success;
+
+                } else {
+                    $scope.errorMessage = 'Error: ' + response.data.message;
+                    $scope.successMessage = null;
+                }
             })
             .catch(function(error) {
-                $scope.errorMessage = 'Error: ' + error.data.message;
+                if (error.data && error.data.message) {
+                    $scope.errorMessage = 'Error: ' + error.data.message;
+                } else {
+                    $scope.errorMessage = 'Error: No se pudo completar la operación';
+                }
                 $scope.successMessage = null;
             });
+
+        $scope.fetchData();
+        console.log('$scope.pilots:', $scope.pilots);
+        console.log('$scope.starship_pilot:', $scope.starship_pilot);
     };
 
 });

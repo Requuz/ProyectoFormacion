@@ -35,10 +35,8 @@ Route::get('/starshipPilot', function () {
     return StarshipPilot::all();
 });
 
-Route::apiResource('starship_pilot', StarshipPilotController::class)->only(['index']);
-Route::delete('starship_pilot/{id}', [StarshipPilotController::class, 'destroy']);
-Route::post('starship_pilot/link_pilot', [StarshipPilotController::class, 'linkPilot']);
+Route::post('/destroyById/{id}', 'App\Http\Controllers\StarshipPilotController@destroyById');
+Route::post('/linkPilot/{pilot_id}/{starship_id}', 'App\Http\Controllers\StarshipPilotController@linkPilot');
+Route::post('/unlinkPilot/{pilot_id}/{starship_id}', 'App\Http\Controllers\StarshipPilotController@unlinkPilot');
 
-Route::get('/starship-pilot', [StarshipPilotController::class, 'index']);
-Route::post('/starship-pilot/destroy-by-name', [StarshipPilotController::class, 'destroyByName']);
-Route::post('/starship-pilot/link-pilot', [StarshipPilotController::class, 'linkPilot']);
+

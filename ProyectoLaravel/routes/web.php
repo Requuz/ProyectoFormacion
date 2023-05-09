@@ -30,9 +30,6 @@ Route::get('/pilots', function () {
     return view('pilots');
 });
 
-Route::get('/pilots', 'PeopleController@index');
-
-
 Route::get('/pilots', [PilotsController::class, 'index']);
 
 Route::get('/starshipPilot', function () {
@@ -41,9 +38,10 @@ Route::get('/starshipPilot', function () {
 
 Route::get('/starshipPilot', [StarshipPilotController::class, 'index'])->name('starshipPilot');
 
-Route::delete('/pilots/destroyByName', [StarshipPilotController::class, 'destroyByName'])->name('pilots.destroyByName');
+Route::post('/pilots/destroyById', [StarshipPilotController::class, 'destroyById'])->name('pilots.destroyById');
 
-Route::post('/starships/linkPilot', [StarshipPilotController::class, 'linkPilot'])->name('starships.linkPilot');
+Route::post('/destroyById/{id}', 'App\Http\Controllers\StarshipPilotController@destroyById');
+Route::post('/linkPilot', 'App\Http\Controllers\StarshipPilotController@linkPilot');
 
 Route::post('/starships/unlinkPilot', 'StarshipController@unlinkPilot')->name('starships.unlinkPilot');
 

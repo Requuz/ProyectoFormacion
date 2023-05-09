@@ -1,3 +1,4 @@
+@import url('menu.css');
 * {
     box-sizing: inherit;
     transition-property: all;
@@ -64,26 +65,6 @@
     100% {
         opacity: 0;
         transform: translateZ(-1000em);
-    }
-}
-
-@keyframes spin-letters {
-    0%,
-    10% {
-        opacity: 0;
-        transform: rotateY(90deg);
-    }
-    30% {
-        opacity: 1;
-    }
-    70%,
-    86% {
-        transform: rotateY(0);
-        opacity: 1;
-    }
-    95%,
-    100% {
-        opacity: 0;
     }
 }
 
