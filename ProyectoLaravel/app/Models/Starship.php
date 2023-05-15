@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Validator;
 
 class Starship extends Model
 {
@@ -30,4 +31,5 @@ class Starship extends Model
     {
         return $this->belongsToMany(Pilot::class, 'starship_pilot');
     }
+
 }

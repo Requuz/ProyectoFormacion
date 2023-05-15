@@ -40,21 +40,28 @@ class StarshipPilotController extends Controller
     return response()->json(['Mensaje:'=> 'Piloto eliminado'], 200);
 
 }
-   public function linkPilot($pilot_id, $starship_id)
+  public function linkPilot($pilot_id, $starship_id)
 {
-    //Buscar el piloto y la nave en la base de datos usando los valores de los parametros
+    // Buscar el piloto y la nave en la base de datos usando los valores de los parámetros
     $pilot = Pilot::find($pilot_id);
     $starship = Starship::find($starship_id);
 
-    //Si los dos existen, se vinculan y se muestra un mensaje de éxito
+    // Si los dos existen, se verifica si ya están vinculados
     if ($starship && $pilot) {
-        $starship->pilots()->attach($pilot);
-        return response()->json(['success' => 'Piloto y nave vinculados correctamente']);
+        // Si ya están vinculados, se muestra un mensaje de error
+        if ($starship->pilots()->where('pilot_id', $pilot_id)->exists()) {
+            return response()->json(['message' => 'El piloto y la nave ya están vinculados.'], 409);
+        } else {
+            // Si no están vinculados, se vinculan y se muestra un mensaje de éxito
+            $starship->pilots()->attach($pilot);
+            return response()->json(['success' => 'Piloto y nave vinculados correctamente']);
+        }
     }
 
-    //Si cualquiera de los dos no se encuentra, se muestra un mensaje de error
+    // Si cualquiera de los dos no se encuentra, se muestra un mensaje de error
     return response()->json(['message' => 'Nave o piloto no encontrado.'], 404);
 }
+
 
 
       public function unlinkPilot($pilot_id, $starship_id)

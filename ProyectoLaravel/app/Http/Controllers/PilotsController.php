@@ -10,7 +10,7 @@ class PilotsController extends Controller
     public function index()
     {
         $pilots = Pilot::all();
-        return view('pilots', compact('pilots'));
+        return response()->json($pilots);
     }
 
 }
