@@ -57,7 +57,7 @@ private function importStarships($url, $page = 1, $retries = 3)
                 'name' => $starshipData['name'],
                 'model' => $starshipData['model'],
                 'manufacturer' => $starshipData['manufacturer'],
-                'cost_in_credits' => $starshipData['cost_in_credits'],
+                'cost_in_credits' => strcmp($starshipData['cost_in_credits'], 'unknown') == 0 ? 100000 : $starshipData['cost_in_credits'],
                 'length' => $starshipData['length'],
                 'max_atmosphering_speed' => $starshipData['max_atmosphering_speed'],
                 'crew' => $starshipData['crew'],
