@@ -24,10 +24,6 @@
         alt="Wars"
         class="wars"
       />
-      <audio id="introAudio">
-        <source src="tu_audio.mp3" type="audio/mpeg" />
-        Tu navegador no soporta el elemento de audio.
-      </audio>
     </div>
 
     <div class="container">
@@ -39,22 +35,5 @@
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular-route.min.js"></script>
     <script src="controllers/app.js"></script>
-    <script>
-      // Obtén el elemento de audio
-      const audio = document.getElementById("introAudio");
-
-      // Agrega un escuchador de eventos a la animación
-      const star = document.querySelector(".star");
-      star.addEventListener("animationstart", function () {
-        // Inicia el audio al principio de la animación
-        audio.play();
-      });
-
-      star.addEventListener("animationend", function () {
-        // Detén el audio al final de la animación
-        audio.pause();
-        audio.currentTime = 0; // Restablece el audio al principio
-      });
-    </script>
   </body>
 </html>
