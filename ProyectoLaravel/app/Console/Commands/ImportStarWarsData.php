@@ -30,11 +30,11 @@ class ImportStarWarsData extends Command
         Pilot::truncate();
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
-         //Importar datos de los pilotos
+         //url para importar datos de los pilotos
         $peopleUrl = 'https://swapi.dev/api/people/';
         $this->importPilots($peopleUrl);
 
-        //Importar datos de las naves
+        //url para importar datos de las naves
         $starshipsUrl = 'https://swapi.dev/api/starships/';
         $this->importStarships($starshipsUrl);
 

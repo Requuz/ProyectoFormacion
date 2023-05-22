@@ -3,11 +3,10 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Validator;
 
 class Starship extends Model
 {
-
+    // $fillable es un array que contiene los nombres de las columnas de la tabla 'starships' en la base de datos
     protected $fillable = [
         'name',
         'model',
@@ -27,6 +26,7 @@ class Starship extends Model
         'edited',
     ];
 
+    // esta funcion define una relación de muchos a muchos entre Starship y Pilot usando la tabla 'starship_pilot' como intermediario
     public function pilots()
     {
         return $this->belongsToMany(Pilot::class, 'starship_pilot');
